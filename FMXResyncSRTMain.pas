@@ -1,17 +1,20 @@
 // chuacw 2 Apr 2018
-unit ResyncSRTMain;
+unit FMXResyncSRTMain;
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.CheckLst;
+  System.Classes, FMX.Forms, System.Actions, FMX.ActnList, FMX.Dialogs, FMX.Controls,
+  FMX.Menus, FMX.ScrollBox, FMX.Memo, FMX.StdCtrls, FMX.ExtCtrls.Vcl, FMX.Types,
+  FMX.Controls.Presentation, FMX.Edit, FMX.DateTimeCtrls, System.Rtti,
+  FMX.Grid.Style, FMX.Grid, FMX.Layouts;
 
 type
   TfrmResync = class(TForm)
     Panel1: TPanel;
+    Button1: TButton;
     Panel2: TPanel;
+    Splitter1: TSplitter;
     memSRT: TMemo;
     memNewSRT: TMemo;
     MainMenu1: TMainMenu;
@@ -19,24 +22,19 @@ type
     Load1: TMenuItem;
     Save1: TMenuItem;
     N1: TMenuItem;
-    Exit1: TMenuItem;
+    MenuItem8: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    SaveDialog1: TSaveDialog;
     ActionList1: TActionList;
     acLoad: TAction;
     acSave: TAction;
     acExit: TAction;
-    OpenDialog1: TOpenDialog;
-    Splitter1: TSplitter;
     acResync: TAction;
-    Button1: TButton;
     acTest: TAction;
+    rgSync: TRadioGroup;
     leHour: TLabeledEdit;
     leMin: TLabeledEdit;
     leSec: TLabeledEdit;
-    rgSync: TRadioGroup;
-    SaveDialog1: TSaveDialog;
-    Label1: TLabel;
-    edNewLineNum: TEdit;
-    Label2: TLabel;
     procedure acLoadExecute(Sender: TObject);
     procedure acResyncExecute(Sender: TObject);
     procedure acSaveExecute(Sender: TObject);
@@ -54,9 +52,9 @@ var
 
 implementation
 uses
-  System.DateUtils;
+  System.DateUtils, System.SysUtils;
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TfrmResync.acExitExecute(Sender: TObject);
 begin
@@ -93,7 +91,6 @@ begin
         SetLength(LLines, 0);
         LLineNum := StrToInt(memSRT.Lines[I]);
         Inc(I);
-
         // time info   00:00:00,349 --> 00:00:01,509
         LTimeInfo := memSRT.Lines[I];
         LLine     := LTimeInfo;
@@ -126,16 +123,11 @@ begin
         if Length(LLines) = 0 then
           Continue;
 
-        if edNewLineNum.Text<>'' then
-          begin
-            J := StrToInt(edNewLineNum.Text);
-            if LLineNum < J then Continue;
-          end;
-
         // start transposing
         memNewSRT.Lines.Add(IntToStr(LNewLineNum));
         Inc(LNewLineNum);
 
+//      Redo...
         case rgSync.ItemIndex of
           0: begin // forward
             LTimeStart := IncHour(LTimeStart,   LShiftHour);

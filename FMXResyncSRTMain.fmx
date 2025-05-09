@@ -1,0 +1,188 @@
+object frmResync: TfrmResync
+  Left = 0
+  Top = 0
+  Caption = 'Resync Subtitles'
+  ClientHeight = 427
+  ClientWidth = 718
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Top
+    Size.Width = 718.000000000000000000
+    Size.Height = 145.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object Button1: TButton
+      Action = acResync
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 632.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 75.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Left = 616
+      Top = 9
+    end
+    object rgSync: TRadioGroup
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 225.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Sync Direction'
+      TabOrder = 4
+      Columns = 2
+      Items.Strings = (
+        'Forward'
+        'Backward')
+    end
+    object leHour: TLabeledEdit
+      Height = 21
+      Width = 65
+      Left = 288
+      Top = 19
+      EditLabel.Position.Y = 3.000000000000000000
+      EditLabel.Caption = 'Hour'
+      LabelPosition = lpLeft
+      Text = '0'
+    end
+    object leMin: TLabeledEdit
+      Height = 21
+      Width = 57
+      Left = 368
+      Top = 19
+      EditLabel.Caption = 'Min'
+      LabelPosition = lpLeft
+      Text = '0'
+    end
+    object leSec: TLabeledEdit
+      Height = 21
+      Width = 58
+      Left = 447
+      Top = 19
+      EditLabel.Caption = 'Sec'
+      LabelPosition = lpLeft
+      Text = '0'
+    end
+  end
+  object Panel2: TPanel
+    Align = Client
+    Size.Width = 718.000000000000000000
+    Size.Height = 282.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Top = 43
+    object Splitter1: TSplitter
+      Align = Left
+      Cursor = crHSplit
+      MinSize = 20.000000000000000000
+      Size.Width = 5.000000000000000000
+      Size.Height = 282.000000000000000000
+      Size.PlatformDefault = False
+      Left = 361
+      Top = 1
+    end
+    object memSRT: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Lines.Strings = (
+        'memSRT')
+      ReadOnly = True
+      Align = Left
+      Position.X = 5.000000000000000000
+      Size.Width = 360.000000000000000000
+      Size.Height = 282.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Left = 1
+      Top = 1
+      Viewport.Width = 356.000000000000000000
+      Viewport.Height = 278.000000000000000000
+    end
+    object memNewSRT: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Lines.Strings = (
+        'memNewSRT')
+      ReadOnly = True
+      Align = Client
+      Size.Width = 353.000000000000000000
+      Size.Height = 282.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Left = 364
+      Top = 1
+      Viewport.Width = 349.000000000000000000
+      Viewport.Height = 278.000000000000000000
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 648
+    Top = 88
+    object SRT1: TMenuItem
+      Text = 'SRT'
+      object Load1: TMenuItem
+        Action = acLoad
+        Enabled = True
+        Locked = True
+        ImageIndex = -1
+      end
+      object Save1: TMenuItem
+        Action = acSave
+        Enabled = True
+        Locked = True
+        ImageIndex = -1
+      end
+      object N1: TMenuItem
+        Locked = True
+        Text = '-'
+      end
+      object MenuItem8: TMenuItem
+        Action = acExit
+        Enabled = True
+        Locked = True
+        ImageIndex = -1
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '*.srt'
+    Filter = 'Subtitles|*.srt'
+    Left = 648
+    Top = 232
+  end
+  object SaveDialog1: TSaveDialog
+    Filter = 'Subtitle|*.srt'
+    Left = 648
+    Top = 288
+  end
+  object ActionList1: TActionList
+    Left = 648
+    Top = 152
+    object acLoad: TAction
+      Text = 'Load...'
+      OnExecute = acLoadExecute
+    end
+    object acSave: TAction
+      Text = 'Save...'
+      Enabled = False
+      OnExecute = acSaveExecute
+    end
+    object acExit: TAction
+      Text = 'Exit'
+      OnExecute = acExitExecute
+    end
+    object acResync: TAction
+      Text = 'Resync'
+      OnExecute = acResyncExecute
+    end
+    object acTest: TAction
+      Text = 'Test'
+    end
+  end
+end

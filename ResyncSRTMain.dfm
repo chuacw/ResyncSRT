@@ -2,8 +2,8 @@ object frmResync: TfrmResync
   Left = 0
   Top = 0
   Caption = 'Resync Subtitles'
-  ClientHeight = 427
-  ClientWidth = 718
+  ClientHeight = 361
+  ClientWidth = 786
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,37 +12,63 @@ object frmResync: TfrmResync
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 718
+    Width = 786
     Height = 43
     Align = alTop
     TabOrder = 0
+    DesignSize = (
+      786
+      43)
+    object Label1: TLabel
+      Left = 400
+      Top = 14
+      Width = 49
+      Height = 13
+      Caption = 'Renumber'
+    end
+    object Label2: TLabel
+      Left = 495
+      Top = 14
+      Width = 19
+      Height = 13
+      Caption = 'to 1'
+    end
     object Button1: TButton
-      Left = 616
+      Left = 703
       Top = 9
-      Width = 75
+      Width = 66
       Height = 25
       Action = acResync
+      Anchors = [akRight, akBottom]
       TabOrder = 0
     end
     object leHour: TLabeledEdit
-      Left = 360
+      Left = 232
       Top = 11
       Width = 25
       Height = 21
+      EditLabel.AlignWithMargins = True
       EditLabel.Width = 23
       EditLabel.Height = 13
+      EditLabel.Cursor = crCross
+      EditLabel.BiDiMode = bdRightToLeft
       EditLabel.Caption = 'Hour'
+      EditLabel.Color = clHighlight
+      EditLabel.DragCursor = crMultiDrag
+      EditLabel.ParentBiDiMode = False
+      EditLabel.ParentColor = False
       LabelPosition = lpLeft
       TabOrder = 1
       Text = '0'
     end
     object leMin: TLabeledEdit
-      Left = 408
+      Left = 280
       Top = 11
       Width = 25
       Height = 21
@@ -54,7 +80,7 @@ object frmResync: TfrmResync
       Text = '0'
     end
     object leSec: TLabeledEdit
-      Left = 455
+      Left = 335
       Top = 11
       Width = 25
       Height = 21
@@ -67,33 +93,36 @@ object frmResync: TfrmResync
     end
     object rgSync: TRadioGroup
       Left = 9
-      Top = -2
-      Width = 312
+      Top = -3
+      Width = 184
       Height = 40
-      Caption = 'Sync'
+      Caption = 'Sync Direction'
       Columns = 2
       Items.Strings = (
         'Forward'
         'Backward')
       TabOrder = 4
     end
+    object edNewLineNum: TEdit
+      Left = 456
+      Top = 11
+      Width = 33
+      Height = 21
+      TabOrder = 5
+    end
   end
   object Panel2: TPanel
     Left = 0
     Top = 43
-    Width = 718
-    Height = 384
+    Width = 786
+    Height = 318
     Align = alClient
     Caption = 'Panel2'
     TabOrder = 1
-    ExplicitLeft = 160
-    ExplicitTop = 96
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Splitter1: TSplitter
       Left = 361
       Top = 1
-      Height = 382
+      Height = 316
       ExplicitLeft = 360
       ExplicitTop = 208
       ExplicitHeight = 100
@@ -102,7 +131,7 @@ object frmResync: TfrmResync
       Left = 1
       Top = 1
       Width = 360
-      Height = 382
+      Height = 316
       Align = alLeft
       Lines.Strings = (
         'memSRT')
@@ -113,8 +142,8 @@ object frmResync: TfrmResync
     object memNewSRT: TMemo
       Left = 364
       Top = 1
-      Width = 353
-      Height = 382
+      Width = 421
+      Height = 316
       Align = alClient
       Lines.Strings = (
         'memNewSRT')

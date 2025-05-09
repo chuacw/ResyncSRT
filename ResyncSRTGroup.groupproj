@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3932DA8F-6B12-4277-A4AE-24FAFED00ADD}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="VCLResyncSRT.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ResyncSRT.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Fmx.ExtCtrls.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="VCLResyncSRT">
+        <MSBuild Projects="VCLResyncSRT.dproj"/>
+    </Target>
+    <Target Name="VCLResyncSRT:Clean">
+        <MSBuild Projects="VCLResyncSRT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VCLResyncSRT:Make">
+        <MSBuild Projects="VCLResyncSRT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ResyncSRT">
+        <MSBuild Projects="ResyncSRT.dproj"/>
+    </Target>
+    <Target Name="ResyncSRT:Clean">
+        <MSBuild Projects="ResyncSRT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ResyncSRT:Make">
+        <MSBuild Projects="ResyncSRT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Fmx_ExtCtrls">
+        <MSBuild Projects="..\Fmx.ExtCtrls.dproj"/>
+    </Target>
+    <Target Name="Fmx_ExtCtrls:Clean">
+        <MSBuild Projects="..\Fmx.ExtCtrls.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fmx_ExtCtrls:Make">
+        <MSBuild Projects="..\Fmx.ExtCtrls.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="VCLResyncSRT;ResyncSRT;Fmx_ExtCtrls"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="VCLResyncSRT:Clean;ResyncSRT:Clean;Fmx_ExtCtrls:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="VCLResyncSRT:Make;ResyncSRT:Make;Fmx_ExtCtrls:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
