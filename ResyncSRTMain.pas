@@ -6,7 +6,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.CheckLst;
+  Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TfrmResync = class(TForm)
@@ -29,20 +29,11 @@ type
     acResync: TAction;
     Button1: TButton;
     acTest: TAction;
-    leAdjustByHour: TLabeledEdit;
-    leAdjustByMin: TLabeledEdit;
-    leAdjustBySec: TLabeledEdit;
+    leHour: TLabeledEdit;
+    leMin: TLabeledEdit;
+    leSec: TLabeledEdit;
     rgSync: TRadioGroup;
     SaveDialog1: TSaveDialog;
-    Label1: TLabel;
-    edNewLineNum: TEdit;
-    Label2: TLabel;
-    leStartFromHour: TLabeledEdit;
-    leStartFromMin: TLabeledEdit;
-    leStartFromSec: TLabeledEdit;
-    Panel3: TPanel;
-    Label3: TLabel;
-    Label4: TLabel;
     procedure acLoadExecute(Sender: TObject);
     procedure acResyncExecute(Sender: TObject);
     procedure acSaveExecute(Sender: TObject);
@@ -80,7 +71,7 @@ end;
 procedure TfrmResync.acResyncExecute(Sender: TObject);
 var
   I, J, LLineNum, LNewLineNum, LHour1, LMin1, LSec1, LMSec1, LHour2,
-  LMin2, LSec2, LMSec2, LShiftHour, LShiftMin, LShiftSec, LShiftMS: Word;
+  LMin2, LSec2, LMSec2, LShiftHour, LShiftMin, LShiftSec: Integer;
   LLine, LTimeInfo, LNewTimeInfo: string;
   LLines: TArray<string>;
   LTimeStart, LTimeEnd, LTimeShift: TDateTime;
@@ -90,30 +81,15 @@ begin
     memNewSRT.Lines.Clear;
 
     I := 0; LNewLineNum := 1;
-    var LStartHour := StrToInt(leStartFromHour.Text);
-    var LStartMin := StrToInt(leStartFromMin.Text);
-    var LStartSec := StrToInt(leStartFromSec.Text);
-
-    var LAdjustHour := StrToInt(leAdjustByHour.Text);
-    var LAdjustMin  := StrToInt(leAdjustByMin.Text);
-    var LAdjustSec  := StrToInt(leAdjustBySec.Text);
-
-    var LStartTime  := EncodeTime(LStartHour, LStartMin, LStartSec, 0);
-    var LAdjustTime := EncodeTime(LAdjustHour, LAdjustMin, LAdjustSec, 0);
-    var LDeltaTime  := Abs(LAdjustTime - LStartTime);
-
-    if LAdjustTime > LStartTime then
-      rgSync.ItemIndex := 0 else
-      rgSync.ItemIndex := 1;
-
-    DecodeTime(LDeltaTime, LShiftHour, LShiftMin, LShiftSec, LShiftMS);
+    LShiftHour := StrToInt(leHour.Text);
+    LShiftMin  := StrToInt(leMin.Text);
+    LShiftSec  := StrToInt(leSec.Text);
 
     while I < memSRT.Lines.Count-1 do
       begin
         SetLength(LLines, 0);
         LLineNum := StrToInt(memSRT.Lines[I]);
         Inc(I);
-
         // time info   00:00:00,349 --> 00:00:01,509
         LTimeInfo := memSRT.Lines[I];
         LLine     := LTimeInfo;
@@ -123,7 +99,9 @@ begin
         LSec1     := StrToInt(Copy(LTimeInfo, 7, 2));
         LMSec1    := StrToInt(Copy(LTimeInfo, 10, 3));
 
-        Delete(LTimeInfo, 1, 17);
+        Delete(LTimeInfo, 1, 12);
+        LTimeInfo := Trim(LTimeInfo);
+        while LTimeInfo[1] in ['-', '>', ' '] do Delete(LTimeInfo, 1, 1);
 
         LHour2    := StrToInt(Copy(LTimeInfo, 1, 2));
         LMin2     := StrToInt(Copy(LTimeInfo, 4, 2));
@@ -146,49 +124,30 @@ begin
         if Length(LLines) = 0 then
           Continue;
 
-        if edNewLineNum.Text<>'' then
-          begin
-            J := StrToInt(edNewLineNum.Text);
-            if LLineNum < J then Continue;
-          end;
-
-        // time info   00:00:00,349 --> 00:00:01,509
-        // First time is the time before the arrow
-        var LFirstTime := EncodeTime(LHour1, LMin1, LSec1, LMSec1);
-
-        // If this particular date/time is before the start time, skip
-        var LChangeTime := LFirstTime >= LStartTime;
-
         // start transposing
         memNewSRT.Lines.Add(IntToStr(LNewLineNum));
         Inc(LNewLineNum);
 
-        if LNewLineNum = 123 then
-          asm nop end;
+        case rgSync.ItemIndex of
+          0: begin // forward
+            LTimeStart := IncHour(LTimeStart,   LShiftHour);
+            LTimeStart := IncMinute(LTimeStart, LShiftMin);
+            LTimeStart := IncSecond(LTimeStart, LShiftSec);
 
-        if LChangeTime then
-          begin
-            case rgSync.ItemIndex of
-              0: begin // forward
-                LTimeStart := IncHour(LTimeStart,   LShiftHour);
-                LTimeStart := IncMinute(LTimeStart, LShiftMin);
-                LTimeStart := IncSecond(LTimeStart, LShiftSec);
-
-                LTimeEnd   := IncHour(LTimeEnd,     LShiftHour);
-                LTimeEnd   := IncMinute(LTimeEnd,   LShiftMin);
-                LTimeEnd   := IncSecond(LTimeEnd,   LShiftSec);
-              end;
-              1: begin // backward
-                LTimeStart := IncHour(LTimeStart,   -LShiftHour);
-                LTimeStart := IncMinute(LTimeStart, -LShiftMin);
-                LTimeStart := IncSecond(LTimeStart, -LShiftSec);
-
-                LTimeEnd   := IncHour(LTimeEnd,     -LShiftHour);
-                LTimeEnd   := IncMinute(LTimeEnd,   -LShiftMin);
-                LTimeEnd   := IncSecond(LTimeEnd,   -LShiftSec);
-              end;
-            end;
+            LTimeEnd   := IncHour(LTimeEnd,     LShiftHour);
+            LTimeEnd   := IncMinute(LTimeEnd,   LShiftMin);
+            LTimeEnd   := IncSecond(LTimeEnd,   LShiftSec);
           end;
+          1: begin // backward
+            LTimeStart := IncHour(LTimeStart,   -LShiftHour);
+            LTimeStart := IncMinute(LTimeStart, -LShiftMin);
+            LTimeStart := IncSecond(LTimeStart, -LShiftSec);
+
+            LTimeEnd   := IncHour(LTimeEnd,     -LShiftHour);
+            LTimeEnd   := IncMinute(LTimeEnd,   -LShiftMin);
+            LTimeEnd   := IncSecond(LTimeEnd,   -LShiftSec);
+          end;
+        end;
 
         LNewTimeInfo := Format('%s --> %s', [FormatDateTime('hh:nn:ss,zzz', LTimeStart),
           FormatDateTime('hh:nn:ss,zzz', LTimeEnd)]);
@@ -215,9 +174,7 @@ end;
 
 procedure TfrmResync.LoadFile(const AFileName: string);
 begin
-  memSRT.Lines.Clear;
   memSRT.Lines.LoadFromFile(AFileName);
-  memNewSRT.Lines.Clear;
 end;
 
 procedure TfrmResync.SaveFile(const AFileName: string);
