@@ -1,9 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{82EDDF3C-438C-4014-BC83-8E89EE92DE68}</ProjectGuid>
+        <ProjectGuid>{D6885E0F-6ABE-4D2A-AE4D-1A9E152B9479}</ProjectGuid>
         <ProjectVersion>18.7</ProjectVersion>
-        <FrameworkType>FMX</FrameworkType>
-        <MainSource>ResyncSRT.dpr</MainSource>
+        <FrameworkType>VCL</FrameworkType>
+        <MainSource>VCLResyncSRT.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -54,12 +54,11 @@
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
         <DCC_UsePackage>RESTComponents;emsclientfiredac;DataSnapFireDAC;FireDACIBDriver;emsclient;FireDACCommon;RESTBackendComponents;soapserver;CloudService;FireDACCommonDriver;LockBoxDR;inet;FireDAC;FireDACSqliteDriver;soaprtl;soapmidas;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>ResyncSRT</SanitizedProjectName>
+        <SanitizedProjectName>VCLResyncSRT</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;DataSnapServerMidas;DBXDb2Driver;DBXInterBaseDriver;OverbyteIcsD102Run;vclactnband;vclFireDAC;svnui;tethering;FireDACADSDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;vcltouch;vcldb;bindcompfmx;svn;DBXOracleDriver;inetdb;VirtualTreesDR;emsedge;fmx;fmxdae;vclib;FireDACDBXDriver;dbexpress;IndyCore;vclx;dsnap;DataSnapCommon;FixInsight_10_2;DataSnapConnectors;VCLRESTComponents;vclie;bindengine;DBXMySQLDriver;FireDACOracleDriver;FireDACMySQLDriver;DBXFirebirdDriver;Intraweb_14_D10_2;FireDACCommonODBC;DataSnapClient;UIRibbonPackageDR;bindcompdbx;IndyIPCommon;vcl;DBXSybaseASEDriver;IndyIPServer;IndySystem;FireDACDb2Driver;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;emshosting;FireDACPgDriver;ibmonitor;FireDACASADriver;DBXOdbcDriver;FireDACTDataDriver;DbxCommonDriver;ibxpress;DataSnapServer;xmlrtl;DataSnapNativeClient;fmxobj;vclwinx;FireDACDSDriver;rtl;ibxbindings;DbxClientDriver;DBXSybaseASADriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;DBXInformixDriver;IndyIPClient;bindcompvcl;dbxcds;VclSmp;adortl;FireDACODBCDriver;DataSnapIndy10ServerTransport;dsnapxml;DataSnapProviderClient;dbrtl;inetdbxpress;FireDACMongoDBDriver;IndyProtocols;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -100,9 +99,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="FMXResyncSRTMain.pas">
+        <DCCReference Include="ResyncSRTMain.pas">
             <Form>frmResync</Form>
-            <FormType>fmx</FormType>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -122,43 +121,13 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">ResyncSRT.dpr</Source>
+                    <Source Name="MainSource">VCLResyncSRT.dpr</Source>
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win32\Debug\ResyncSRT.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\VCLResyncSRT.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>ResyncSRT.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx64\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                        <RemoteName>VCLResyncSRT.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
