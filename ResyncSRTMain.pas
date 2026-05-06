@@ -1,7 +1,10 @@
-// chuacw 2 Apr 2018
+// Initial: chuacw 2 Apr 2018
+// Updated: chuacw 6 May 2026
 unit ResyncSRTMain;
 
 interface
+
+{$CODEALIGN 16}
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
