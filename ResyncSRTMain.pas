@@ -132,8 +132,9 @@ begin
         var LStart := Copy(LLine, 1, LSep-1).TrimRight;
         var LEnd   := Copy(LLine, LSep + Length(LArrow), Length(LLine)).TrimLeft;
 
-        var LStartTime := SplitString(LStart, ':,');
-        var LEndTime   := SplitString(LEnd, ':,');
+        var LDelimiters := ':,';
+        var LStartTime := SplitString(LStart, LDelimiters);
+        var LEndTime   := SplitString(LEnd, LDelimiters);
 
         LHour1    := StrToInt(LStartTime[0]);
         LMin1     := StrToInt(LStartTime[1]);
