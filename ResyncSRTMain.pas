@@ -11,8 +11,8 @@ uses
 
 type
   TfrmResync = class(TForm)
-    Panel1: TPanel;
-    Panel2: TPanel;
+    pnlControls: TPanel;
+    pnlSRT: TPanel;
     memSRT: TMemo;
     memNewSRT: TMemo;
     MainMenu1: TMainMenu;

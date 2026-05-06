@@ -1,10 +1,10 @@
 object frmResync: TfrmResync
   Left = 0
   Top = 0
-  Margins.Left = 7
-  Margins.Top = 7
-  Margins.Right = 7
-  Margins.Bottom = 7
+  Margins.Left = 0
+  Margins.Top = 0
+  Margins.Right = 0
+  Margins.Bottom = 0
   Caption = 'Resync Subtitles'
   ClientHeight = 812
   ClientWidth = 1769
@@ -19,15 +19,15 @@ object frmResync: TfrmResync
   OnCreate = FormCreate
   PixelsPerInch = 216
   TextHeight = 30
-  object Panel1: TPanel
+  object pnlControls: TPanel
     Left = 0
     Top = 0
     Width = 1769
     Height = 97
-    Margins.Left = 7
-    Margins.Top = 7
-    Margins.Right = 7
-    Margins.Bottom = 7
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alTop
     TabOrder = 0
     DesignSize = (
@@ -38,10 +38,10 @@ object frmResync: TfrmResync
       Top = 42
       Width = 114
       Height = 30
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Caption = 'Renumber'
     end
     object Label2: TLabel
@@ -49,21 +49,21 @@ object frmResync: TfrmResync
       Top = 38
       Width = 44
       Height = 30
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Caption = 'to 1'
     end
     object btnResync: TButton
-      Left = 1582
+      Left = 1594
       Top = 20
       Width = 148
       Height = 57
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Action = acResync
       Anchors = [akRight, akBottom]
       Enabled = False
@@ -74,18 +74,18 @@ object frmResync: TfrmResync
       Top = 50
       Width = 56
       Height = 38
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       EditLabel.AlignWithMargins = True
       EditLabel.Width = 54
       EditLabel.Height = 38
       EditLabel.Cursor = crCross
-      EditLabel.Margins.Left = 7
-      EditLabel.Margins.Top = 7
-      EditLabel.Margins.Right = 7
-      EditLabel.Margins.Bottom = 7
+      EditLabel.Margins.Left = 0
+      EditLabel.Margins.Top = 0
+      EditLabel.Margins.Right = 0
+      EditLabel.Margins.Bottom = 0
       EditLabel.BiDiMode = bdRightToLeft
       EditLabel.Caption = 'Hour'
       EditLabel.Color = clHighlight
@@ -101,16 +101,16 @@ object frmResync: TfrmResync
       Top = 50
       Width = 56
       Height = 38
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       EditLabel.Width = 39
       EditLabel.Height = 38
-      EditLabel.Margins.Left = 7
-      EditLabel.Margins.Top = 7
-      EditLabel.Margins.Right = 7
-      EditLabel.Margins.Bottom = 7
+      EditLabel.Margins.Left = 0
+      EditLabel.Margins.Top = 0
+      EditLabel.Margins.Right = 0
+      EditLabel.Margins.Bottom = 0
       EditLabel.Caption = 'Min'
       LabelPosition = lpLeft
       TabOrder = 2
@@ -121,16 +121,16 @@ object frmResync: TfrmResync
       Top = 50
       Width = 56
       Height = 38
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       EditLabel.Width = 39
       EditLabel.Height = 38
-      EditLabel.Margins.Left = 7
-      EditLabel.Margins.Top = 7
-      EditLabel.Margins.Right = 7
-      EditLabel.Margins.Bottom = 7
+      EditLabel.Margins.Left = 0
+      EditLabel.Margins.Top = 0
+      EditLabel.Margins.Right = 0
+      EditLabel.Margins.Bottom = 0
       EditLabel.Caption = 'Sec'
       LabelPosition = lpLeft
       TabOrder = 3
@@ -141,10 +141,10 @@ object frmResync: TfrmResync
       Top = -7
       Width = 414
       Height = 90
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Caption = 'Sync Direction'
       Columns = 2
       Items.Strings = (
@@ -157,10 +157,10 @@ object frmResync: TfrmResync
       Top = 35
       Width = 74
       Height = 38
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       TabOrder = 5
     end
     object StaticText1: TStaticText
@@ -168,10 +168,10 @@ object frmResync: TfrmResync
       Top = 8
       Width = 233
       Height = 34
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Caption = 'Adjust start time to: '
       FocusControl = leHour
       TabOrder = 6
@@ -181,36 +181,36 @@ object frmResync: TfrmResync
       Top = 20
       Width = 169
       Height = 56
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Caption = 'Cancel'
       TabOrder = 7
       OnClick = btnCancelClick
     end
   end
-  object Panel2: TPanel
+  object pnlSRT: TPanel
     Left = 0
     Top = 97
     Width = 1769
     Height = 715
-    Margins.Left = 7
-    Margins.Top = 7
-    Margins.Right = 7
-    Margins.Bottom = 7
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alClient
-    Caption = 'Panel2'
+    Caption = 'pnlSRT'
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 811
       Top = 1
       Width = 7
       Height = 713
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       MinSize = 68
       ExplicitLeft = 812
       ExplicitTop = 2
@@ -221,10 +221,10 @@ object frmResync: TfrmResync
       Top = 1
       Width = 810
       Height = 713
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alLeft
       Lines.Strings = (
         'memSRT')
@@ -237,10 +237,10 @@ object frmResync: TfrmResync
       Top = 1
       Width = 950
       Height = 713
-      Margins.Left = 7
-      Margins.Top = 7
-      Margins.Right = 7
-      Margins.Bottom = 7
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alClient
       Lines.Strings = (
         'memNewSRT')
@@ -299,9 +299,6 @@ object frmResync: TfrmResync
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '*.srt'
-    FileName = 
-      'D:\Entertainment\TV\The Crossing\the.crossing.s01e01.pilot.480p.' +
-      'web.dl.x264.rmteam.srt'
     Filter = 'Subtitles|*.srt'
     Left = 640
     Top = 224
