@@ -93,7 +93,7 @@ var
 begin
   acResync.Enabled := False;
   btnCancel.Enabled := True;
-  btnCancel.Update;
+  btnCancel.Repaint;
   Application.ProcessMessages;
   try
     memNewSRT.Lines.Clear;
@@ -105,7 +105,6 @@ begin
     var LDiffHour := -1;
     var LDiffMin  := -1;
     var LDiffSec  := -1;
-    LLineNum := -1;
 
     while I < memSRT.Lines.Count-1 do
       begin
@@ -209,7 +208,7 @@ begin
         for J := Low(LLines) to High(LLines) do
           memNewSRT.Lines.Add(LLines[J]);
         memNewSRT.Lines.Add(''); // Add a blank line
-        memNewSRT.Update;
+        memNewSRT.Repaint;
         Application.ProcessMessages;
       end;
   finally
