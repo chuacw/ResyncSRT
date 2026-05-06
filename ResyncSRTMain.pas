@@ -4,9 +4,10 @@ unit ResyncSRTMain;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.CheckLst;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.CheckLst, Vcl.Mask;
 
 type
   TfrmResync = class(TForm)
@@ -27,7 +28,7 @@ type
     OpenDialog1: TOpenDialog;
     Splitter1: TSplitter;
     acResync: TAction;
-    Button1: TButton;
+    btnResync: TButton;
     acTest: TAction;
     leHour: TLabeledEdit;
     leMin: TLabeledEdit;
@@ -37,14 +38,23 @@ type
     Label1: TLabel;
     edNewLineNum: TEdit;
     Label2: TLabel;
+    StaticText1: TStaticText;
+    acEnableResyncButton: TAction;
+    btnCancel: TButton;
     procedure acLoadExecute(Sender: TObject);
     procedure acResyncExecute(Sender: TObject);
     procedure acSaveExecute(Sender: TObject);
     procedure acExitExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure acEnableResyncButtonUpdate(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+    procedure acEnableResyncButtonExecute(Sender: TObject);
   private
+    FProcessing, FCancel: LongBool;
     { Private declarations }
     procedure LoadFile(const AFileName: string);
     procedure SaveFile(const AFileName: string);
+    procedure DisableSync;
   public
     { Public declarations }
   end;
@@ -53,8 +63,9 @@ var
   frmResync: TfrmResync;
 
 implementation
+
 uses
-  System.DateUtils;
+  System.DateUtils, System.StrUtils;
 
 {$R *.dfm}
 
@@ -68,6 +79,7 @@ begin
   if OpenDialog1.Execute then
     begin
       LoadFile(OpenDialog1.FileName);
+      DisableSync;
     end;
 end;
 
@@ -80,6 +92,9 @@ var
   LTimeStart, LTimeEnd, LTimeShift: TDateTime;
 begin
   acResync.Enabled := False;
+  btnCancel.Enabled := True;
+  btnCancel.Update;
+  Application.ProcessMessages;
   try
     memNewSRT.Lines.Clear;
 
@@ -87,28 +102,57 @@ begin
     LShiftHour := StrToInt(leHour.Text);
     LShiftMin  := StrToInt(leMin.Text);
     LShiftSec  := StrToInt(leSec.Text);
+    var LDiffHour := -1;
+    var LDiffMin  := -1;
+    var LDiffSec  := -1;
+    LLineNum := -1;
 
     while I < memSRT.Lines.Count-1 do
       begin
+        if FCancel then
+          begin
+//            asm nop end;
+            Break;
+          end;
+
         SetLength(LLines, 0);
-        LLineNum := StrToInt(memSRT.Lines[I]);
-        Inc(I);
+        try
+          LLineNum := StrToInt(memSRT.Lines[I]);
+          Inc(I);
+        except
+          LLineNum := 1;
+        end;
 
         // time info   00:00:00,349 --> 00:00:01,509
         LTimeInfo := memSRT.Lines[I];
         LLine     := LTimeInfo;
 
-        LHour1    := StrToInt(Copy(LTimeInfo, 1, 2));
-        LMin1     := StrToInt(Copy(LTimeInfo, 4, 2));
-        LSec1     := StrToInt(Copy(LTimeInfo, 7, 2));
-        LMSec1    := StrToInt(Copy(LTimeInfo, 10, 3));
+        var LArrow := '-->';
+        var LSep := Pos(LArrow, LLine);
+        var LStart := Copy(LLine, 1, LSep-1).TrimRight;
+        var LEnd   := Copy(LLine, LSep + Length(LArrow), Length(LLine)).TrimLeft;
+
+        var LStartTime := SplitString(LStart, ':,');
+        var LEndTime   := SplitString(LEnd, ':,');
+
+        LHour1    := StrToInt(LStartTime[0]);
+        LMin1     := StrToInt(LStartTime[1]);
+        LSec1     := StrToInt(LStartTime[2]);
+        LMSec1    := StrToInt(LStartTime[3]);
+
+        if (LDiffHour = -1) or (LDiffMin = -1) or (LDiffSec = -1) then
+          begin
+            LDiffHour := LShiftHour - LHour1;
+            LDiffMin  := LShiftMin  - LMin1;
+            LDiffSec  := LShiftSec  - LSec1;
+          end;
 
         Delete(LTimeInfo, 1, 17);
 
-        LHour2    := StrToInt(Copy(LTimeInfo, 1, 2));
-        LMin2     := StrToInt(Copy(LTimeInfo, 4, 2));
-        LSec2     := StrToInt(Copy(LTimeInfo, 7, 2));
-        LMSec2    := StrToInt(Copy(LTimeInfo, 10, 3));
+        LHour2    := StrToInt(LEndTime[0]);
+        LMin2     := StrToInt(LEndTime[1]);
+        LSec2     := StrToInt(LEndTime[2]);
+        LMSec2    := StrToInt(LEndTime[3]);
 
         LTimeStart := EncodeTime(LHour1, LMin1, LSec1, LMSec1);
         LTimeEnd   := EncodeTime(LHour2, LMin2, LSec2, LMSec2);
@@ -138,22 +182,22 @@ begin
 
         case rgSync.ItemIndex of
           0: begin // forward
-            LTimeStart := IncHour(LTimeStart,   LShiftHour);
-            LTimeStart := IncMinute(LTimeStart, LShiftMin);
-            LTimeStart := IncSecond(LTimeStart, LShiftSec);
+            LTimeStart := IncHour(LTimeStart,   LDiffHour);
+            LTimeStart := IncMinute(LTimeStart, LDiffMin);
+            LTimeStart := IncSecond(LTimeStart, LDiffSec);
 
-            LTimeEnd   := IncHour(LTimeEnd,     LShiftHour);
-            LTimeEnd   := IncMinute(LTimeEnd,   LShiftMin);
-            LTimeEnd   := IncSecond(LTimeEnd,   LShiftSec);
+            LTimeEnd   := IncHour(LTimeEnd,     LDiffHour);
+            LTimeEnd   := IncMinute(LTimeEnd,   LDiffMin);
+            LTimeEnd   := IncSecond(LTimeEnd,   LDiffSec);
           end;
           1: begin // backward
-            LTimeStart := IncHour(LTimeStart,   -LShiftHour);
-            LTimeStart := IncMinute(LTimeStart, -LShiftMin);
-            LTimeStart := IncSecond(LTimeStart, -LShiftSec);
+            LTimeStart := IncHour(LTimeStart,   -LDiffHour);
+            LTimeStart := IncMinute(LTimeStart, -LDiffMin);
+            LTimeStart := IncSecond(LTimeStart, -LDiffSec);
 
-            LTimeEnd   := IncHour(LTimeEnd,     -LShiftHour);
-            LTimeEnd   := IncMinute(LTimeEnd,   -LShiftMin);
-            LTimeEnd   := IncSecond(LTimeEnd,   -LShiftSec);
+            LTimeEnd   := IncHour(LTimeEnd,     -LDiffHour);
+            LTimeEnd   := IncMinute(LTimeEnd,   -LDiffMin);
+            LTimeEnd   := IncSecond(LTimeEnd,   -LDiffSec);
           end;
         end;
 
@@ -164,11 +208,12 @@ begin
         for J := Low(LLines) to High(LLines) do
           memNewSRT.Lines.Add(LLines[J]);
         memNewSRT.Lines.Add(''); // Add a blank line
-
+        memNewSRT.Update;
+        Application.ProcessMessages;
       end;
   finally
-    acResync.Enabled := True;
     acSave.Enabled := True;
+    DisableSync;
   end;
 end;
 
@@ -178,6 +223,52 @@ begin
     begin
       SaveFile(SaveDialog1.FileName);
     end;
+end;
+
+procedure TfrmResync.btnCancelClick(Sender: TObject);
+begin
+  FCancel := True;
+end;
+
+procedure TfrmResync.acEnableResyncButtonExecute(Sender: TObject);
+begin
+// DO NOT REMOVE
+// Removing will cause rgSync to be disabled, since rgSync.Action := ac...
+end;
+
+// This is called every time the application is idle, due to link to
+// rgSync
+procedure TfrmResync.acEnableResyncButtonUpdate(Sender: TObject);
+begin
+  if FProcessing then
+    Exit;
+  if memSRT.Lines.Count = 0 then
+    Exit;
+  if (leHour.Text <> '0') or (leMin.Text <> '0') or (leSec.Text <> '0') then
+    begin
+      if rgSync.ItemIndex <> -1 then
+        btnResync.Enabled := True;
+    end;
+end;
+
+procedure TfrmResync.DisableSync;
+begin
+  leHour.Text := '0';
+  leMin.Text := '0';
+  leSec.Text := '0';
+  btnResync.Enabled := False;
+  rgSync.ItemIndex := -1;
+  FProcessing := False;
+  FCancel := False;
+  btnCancel.Enabled := False;
+end;
+
+procedure TfrmResync.FormCreate(Sender: TObject);
+begin
+  memNewSRT.Clear;
+  memSRT.Clear;
+  DisableSync;
+  rgSync.Action := acEnableResyncButton;
 end;
 
 procedure TfrmResync.LoadFile(const AFileName: string);

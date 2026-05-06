@@ -1,62 +1,91 @@
 object frmResync: TfrmResync
   Left = 0
   Top = 0
+  Margins.Left = 7
+  Margins.Top = 7
+  Margins.Right = 7
+  Margins.Bottom = 7
   Caption = 'Resync Subtitles'
-  ClientHeight = 361
-  ClientWidth = 786
+  ClientHeight = 812
+  ClientWidth = 1769
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -25
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
   Position = poScreenCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  OnCreate = FormCreate
+  PixelsPerInch = 216
+  TextHeight = 30
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 786
-    Height = 43
+    Width = 1769
+    Height = 97
+    Margins.Left = 7
+    Margins.Top = 7
+    Margins.Right = 7
+    Margins.Bottom = 7
     Align = alTop
     TabOrder = 0
     DesignSize = (
-      786
-      43)
+      1769
+      97)
     object Label1: TLabel
-      Left = 400
-      Top = 14
-      Width = 49
-      Height = 13
+      Left = 1070
+      Top = 42
+      Width = 114
+      Height = 30
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Caption = 'Renumber'
     end
     object Label2: TLabel
-      Left = 495
-      Top = 14
-      Width = 19
-      Height = 13
+      Left = 1284
+      Top = 38
+      Width = 44
+      Height = 30
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Caption = 'to 1'
     end
-    object Button1: TButton
-      Left = 703
-      Top = 9
-      Width = 66
-      Height = 25
+    object btnResync: TButton
+      Left = 1582
+      Top = 20
+      Width = 148
+      Height = 57
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Action = acResync
       Anchors = [akRight, akBottom]
+      Enabled = False
       TabOrder = 0
     end
     object leHour: TLabeledEdit
-      Left = 232
-      Top = 11
-      Width = 25
-      Height = 21
+      Left = 522
+      Top = 50
+      Width = 56
+      Height = 38
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       EditLabel.AlignWithMargins = True
-      EditLabel.Width = 23
-      EditLabel.Height = 13
+      EditLabel.Width = 54
+      EditLabel.Height = 38
       EditLabel.Cursor = crCross
+      EditLabel.Margins.Left = 7
+      EditLabel.Margins.Top = 7
+      EditLabel.Margins.Right = 7
+      EditLabel.Margins.Bottom = 7
       EditLabel.BiDiMode = bdRightToLeft
       EditLabel.Caption = 'Hour'
       EditLabel.Color = clHighlight
@@ -68,34 +97,54 @@ object frmResync: TfrmResync
       Text = '0'
     end
     object leMin: TLabeledEdit
-      Left = 280
-      Top = 11
-      Width = 25
-      Height = 21
-      EditLabel.Width = 16
-      EditLabel.Height = 13
+      Left = 630
+      Top = 50
+      Width = 56
+      Height = 38
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
+      EditLabel.Width = 39
+      EditLabel.Height = 38
+      EditLabel.Margins.Left = 7
+      EditLabel.Margins.Top = 7
+      EditLabel.Margins.Right = 7
+      EditLabel.Margins.Bottom = 7
       EditLabel.Caption = 'Min'
       LabelPosition = lpLeft
       TabOrder = 2
       Text = '0'
     end
     object leSec: TLabeledEdit
-      Left = 335
-      Top = 11
-      Width = 25
-      Height = 21
-      EditLabel.Width = 17
-      EditLabel.Height = 13
+      Left = 754
+      Top = 50
+      Width = 56
+      Height = 38
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
+      EditLabel.Width = 39
+      EditLabel.Height = 38
+      EditLabel.Margins.Left = 7
+      EditLabel.Margins.Top = 7
+      EditLabel.Margins.Right = 7
+      EditLabel.Margins.Bottom = 7
       EditLabel.Caption = 'Sec'
       LabelPosition = lpLeft
       TabOrder = 3
       Text = '0'
     end
     object rgSync: TRadioGroup
-      Left = 9
-      Top = -3
-      Width = 184
-      Height = 40
+      Left = 20
+      Top = -7
+      Width = 414
+      Height = 90
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Caption = 'Sync Direction'
       Columns = 2
       Items.Strings = (
@@ -104,34 +153,78 @@ object frmResync: TfrmResync
       TabOrder = 4
     end
     object edNewLineNum: TEdit
-      Left = 456
-      Top = 11
-      Width = 33
-      Height = 21
+      Left = 1196
+      Top = 35
+      Width = 74
+      Height = 38
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       TabOrder = 5
+    end
+    object StaticText1: TStaticText
+      Left = 464
+      Top = 8
+      Width = 233
+      Height = 34
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
+      Caption = 'Adjust start time to: '
+      FocusControl = leHour
+      TabOrder = 6
+    end
+    object btnCancel: TButton
+      Left = 1384
+      Top = 20
+      Width = 169
+      Height = 56
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
+      Caption = 'Cancel'
+      TabOrder = 7
+      OnClick = btnCancelClick
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 43
-    Width = 786
-    Height = 318
+    Top = 97
+    Width = 1769
+    Height = 715
+    Margins.Left = 7
+    Margins.Top = 7
+    Margins.Right = 7
+    Margins.Bottom = 7
     Align = alClient
     Caption = 'Panel2'
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 361
+      Left = 811
       Top = 1
-      Height = 316
-      ExplicitLeft = 360
-      ExplicitTop = 208
-      ExplicitHeight = 100
+      Width = 7
+      Height = 713
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
+      MinSize = 68
+      ExplicitLeft = 812
+      ExplicitTop = 2
+      ExplicitHeight = 711
     end
     object memSRT: TMemo
       Left = 1
       Top = 1
-      Width = 360
-      Height = 316
+      Width = 810
+      Height = 713
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Align = alLeft
       Lines.Strings = (
         'memSRT')
@@ -140,10 +233,14 @@ object frmResync: TfrmResync
       TabOrder = 0
     end
     object memNewSRT: TMemo
-      Left = 364
+      Left = 818
       Top = 1
-      Width = 421
-      Height = 316
+      Width = 950
+      Height = 713
+      Margins.Left = 7
+      Margins.Top = 7
+      Margins.Right = 7
+      Margins.Bottom = 7
       Align = alClient
       Lines.Strings = (
         'memNewSRT')
@@ -193,6 +290,11 @@ object frmResync: TfrmResync
     end
     object acTest: TAction
       Caption = 'Test'
+    end
+    object acEnableResyncButton: TAction
+      Caption = 'Sync Direction'
+      OnExecute = acEnableResyncButtonExecute
+      OnUpdate = acEnableResyncButtonUpdate
     end
   end
   object OpenDialog1: TOpenDialog
